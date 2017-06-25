@@ -1,0 +1,1 @@
+CREATE TABLE entry (id int, key text, url text, count int DEFAULT 0);

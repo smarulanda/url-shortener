@@ -1,0 +1,34 @@
+<% include header %>
+
+<h1>
+	Success!
+</h1>
+
+<p class="lead">
+	Here's your shortened link.
+</p>
+
+<form>
+	<div class="input-group">
+		<input type="text" class="form-control form-control-lg" value="<%= key %>" readonly>
+		<span class="input-group-btn">
+			<button class="btn btn-primary btn-lg" type="button" onclick="copyToClipboard()">
+				<i class="fa fa-clipboard"></i>
+			</button>
+		</span>
+	</div>
+</form>
+
+<script>
+	function copyToClipboard() {
+		var input = document.querySelector('input');
+
+		input.select();
+
+		if (document.execCommand('copy')) {
+			input.blur();
+		}
+	}
+</script>
+
+<% include footer %>
