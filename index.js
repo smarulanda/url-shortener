@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var rk = require('random-key');
+var random = require('random-key');
 var pg = require('pg-promise')();
 
 var app = express();
@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 // Post url and shorten
 app.post('/shorten', function (req, res) {
 	var url = req.body.url;
-	var key = rk.generate(6);
+	var key = random.generate(6);
 
 	if (typeof url === 'undefined') {
 		res.redirect('/');
@@ -40,11 +40,10 @@ app.post('/shorten', function (req, res) {
 app.get('/:key', function (req, res) {
 	db.one('select * from entry where key = $1', req.params.key)
 	.then(function (entry) {
-		// Increase the count, then redirect
-		db.none('update entry set count = $1 where id = $2', [entry.count + 1, entry.id])
-		.then(function (data) {
-			res.redirect(entry.url);
-		});
+		res.redirect(entry.url);
+	})
+	.catch(function () {
+		res.redirect('/');
 	});
 });
 
