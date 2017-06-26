@@ -24,15 +24,15 @@ app.get('/', function (req, res) {
 // Post url and shorten
 app.post('/shorten', function (req, res) {
 	var url = req.body.url;
-	var key = rk.generate(5);
+	var key = rk.generate(6);
 
 	if (typeof url === 'undefined') {
 		res.redirect('/');
 	}
 
-	db.none("insert into entry(key, url) values($1, $2, $3)", [key, url])
+	db.none("insert into entry(key, url) values($1, $2)", [key, url])
 	.then(function (data) {
-		res.render('shorten', { key: key });
+		res.render('shorten', { link: req.headers.origin + "/" + key });
 	});
 });
 
